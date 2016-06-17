@@ -4,6 +4,8 @@ package Weasel::Widgets::Dojo::Option;
 use strict;
 use warnings;
 
+use Moose;
+extends 'Weasel::Element';
 
 use Weasel::WidgetHandlers qw/ register_widget_handler /;
 
@@ -19,7 +21,7 @@ sub _option_popup {
 
     # Note, this assumes there are no pop-ups nested in the DOM,
     # which from experimentation I believe to be true at this point
-    my $popup = $self->find('ancestor::*[\@dijitpopupparent]');
+    my $popup = $self->find('ancestor::*[@dijitpopupparent]');
 
     return $popup;
 }
