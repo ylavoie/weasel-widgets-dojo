@@ -37,6 +37,17 @@ sub _option_popup {
     return (shift @rv);
 }
 
+sub get_attribute {
+    my ($self, $name) = @_;
 
+    if ($name eq 'value') {
+        return $self->find('.//input[@type="hidden"
+                              and @data-dojo-attach-point="valueNode"]')
+            ->get_attribute('value');
+    }
+    else {
+        return $self->SUPER::get_attribute($name);
+    }
+}
 
 1;
