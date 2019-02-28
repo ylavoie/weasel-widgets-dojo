@@ -1,4 +1,10 @@
 
+ ** 0.03 / 2019-02-28
+  - Adapt to changes in Dojo::Widgets::HTML (::Selectable and ::Select)
+    which now feature a 'value' method which is separate from
+    "get_attribute('value')" in the sense that the returned value depends
+    on the selectedness of the option.
+
  ** 0.02 / 2016-07-09
   - Return the 'value' attribute from the 'valueNode' subnode when
     asking for a SELECT widget's value

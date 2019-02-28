@@ -5,7 +5,8 @@ use strict;
 use warnings;
 
 use Moose;
-extends 'Weasel::Element';
+use Weasel::Widget::HTML::Selectable;
+extends 'Weasel::Widget::HTML::Selectable';
 
 use Weasel::WidgetHandlers qw/ register_widget_handler /;
 
@@ -37,6 +38,22 @@ sub click {
     $self->SUPER::click;
 
     return;
+}
+
+sub selected {
+    my ($self, $new_value) = @_;
+
+    if (defined $new_value) {
+        my $selected = $self->get_attribute('aria-selected') eq 'true';
+        if ($new_value && ! $selected) {
+            $self->click; # select
+        }
+        elsif (! $new_value && $selected) {
+            $self->click; # unselect
+        }
+    }
+
+    return $self->get_attribute('aria-selected') eq 'true';
 }
 
 
