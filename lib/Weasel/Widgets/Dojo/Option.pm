@@ -5,8 +5,8 @@ use strict;
 use warnings;
 
 use Moose;
-use Weasel::Widgets::HTML::Selectable;
-extends 'Weasel::Widgets::HTML::Selectable';
+use Weasel::Widget::HTML::Selectable;
+extends 'Weasel::Widget::HTML::Selectable';
 
 use Weasel::WidgetHandlers qw/ register_widget_handler /;
 
@@ -40,7 +40,7 @@ sub click {
           sub {
             my $class = $selector->get_attribute('class');
             return scalar( grep { $_ eq 'dijitHasDropDownOpen' }
-                           split /\s+/, $class) != 0;
+                           split /\s+/, $class);
         });
     }
     $self->SUPER::click;
@@ -48,8 +48,8 @@ sub click {
       # Wait till popup closes
       sub {
         my $class = $selector->get_attribute('class');
-        return scalar( grep { $_ eq 'dijitHasDropDownOpen' }
-                       split /\s+/, $class) == 0;
+        return !scalar( grep { $_ eq 'dijitHasDropDownOpen' }
+                       split /\s+/, $class) ;
     });
 
     return;
