@@ -5,8 +5,8 @@ use strict;
 use warnings;
 
 use Moose;
-use Weasel::Widget::HTML::Selectable;
-extends 'Weasel::Widget::HTML::Selectable';
+use Weasel::Widgets::HTML::Selectable;
+extends 'Weasel::Widgets::HTML::Selectable';
 
 use Weasel::WidgetHandlers qw/ register_widget_handler /;
 
