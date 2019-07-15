@@ -5,8 +5,8 @@ use strict;
 use warnings;
 
 use Moose;
-use Weasel::Widget::HTML::Selectable;
-extends 'Weasel::Widget::HTML::Selectable';
+use Weasel::Widgets::HTML::Selectable;
+extends 'Weasel::Widgets::HTML::Selectable';
 
 use Weasel::WidgetHandlers qw/ register_widget_handler /;
 
@@ -43,7 +43,8 @@ sub click {
                            split /\s+/, $class);
         });
     }
-    $self->SUPER::click;
+#   $self->SUPER::click;
+    $self->session->driver->_driver->execute_script("arguments[0].click();",$self->{_id});
     $self->session->wait_for(
       # Wait till popup closes
       sub {
@@ -51,7 +52,6 @@ sub click {
         return !scalar( grep { $_ eq 'dijitHasDropDownOpen' }
                        split /\s+/, $class) ;
     });
-
     return;
 }
 
