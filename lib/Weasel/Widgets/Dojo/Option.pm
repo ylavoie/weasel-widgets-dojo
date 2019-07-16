@@ -77,7 +77,8 @@ sub selected {
     my ($self, $new_value) = @_;
 
     if (defined $new_value) {
-my $style = $selector->get_attribute('style');
+my $class = $self->get_attribute('class');
+my $style = $self->get_attribute('style');
 my $t = DateTime::HiRes->now;
 my $dt = $t->hms . ':' . $t->millisecond;
 #warn $dt . " $class -> $style";
