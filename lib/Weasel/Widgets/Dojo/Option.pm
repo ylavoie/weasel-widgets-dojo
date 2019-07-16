@@ -27,9 +27,15 @@ sub _option_popup {
     return $popup;
 }
 
+use DateTime::HiRes;
+use Data::Printer;
 sub click {
     my ($self) = @_;
     my $popup = $self->_option_popup;
+my ($t,$dt);
+$t = DateTime::HiRes->now;
+$dt = $t->hms . ':' . $t->millisecond;
+#warn $dt . " click++";
 
     my $id = $popup->get_attribute('dijitpopupparent');
     my $selector = $self->find("//*[\@id='$id']");
@@ -39,19 +45,31 @@ sub click {
           # Wait till popup opens
           sub {
             my $class = $selector->get_attribute('class');
-            return scalar( grep { $_ eq 'dijitHasDropDownOpen' }
+my $style = $selector->get_attribute('style');
+$t = DateTime::HiRes->now;
+$dt = $t->hms . ':' . $t->millisecond;
+#warn $dt . " $class -> $style";
+            return scalar( grep { $_ eq 'dijitSelectOpened' }
                            split /\s+/, $class);
         });
     }
-#   $self->SUPER::click;
-    $self->session->driver->_driver->execute_script("arguments[0].click();",$self->{_id});
+    $self->SUPER::click;
+#   $self->session->driver->_driver->execute_script("arguments[0].click();",$self->{_id});
     $self->session->wait_for(
       # Wait till popup closes
       sub {
         my $class = $selector->get_attribute('class');
-        return !scalar( grep { $_ eq 'dijitHasDropDownOpen' }
+my $style = $selector->get_attribute('style');
+$t = DateTime::HiRes->now;
+$dt = $t->hms . ':' . $t->millisecond;
+#warn $dt . " $class -> $style";
+        return !scalar( grep { $_ eq 'dijitSelectOpened' }
                        split /\s+/, $class) ;
     });
+
+$t = DateTime::HiRes->now;
+$dt = $t->hms . ':' . $t->millisecond;
+#warn $dt . " click--";
     return;
 }
 
@@ -59,6 +77,10 @@ sub selected {
     my ($self, $new_value) = @_;
 
     if (defined $new_value) {
+my $style = $selector->get_attribute('style');
+my $t = DateTime::HiRes->now;
+my $dt = $t->hms . ':' . $t->millisecond;
+#warn $dt . " $class -> $style";
         my $selected = $self->get_attribute('aria-selected') eq 'true';
         if ($new_value && ! $selected) {
             $self->click; # select
