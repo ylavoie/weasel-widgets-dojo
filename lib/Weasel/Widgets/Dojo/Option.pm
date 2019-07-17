@@ -35,7 +35,7 @@ sub click {
 my ($t,$dt);
 $t = DateTime::HiRes->now;
 $dt = $t->hms . ':' . $t->millisecond;
-#warn $dt . " click++";
+warn $dt . " click++";
 
     my $id = $popup->get_attribute('dijitpopupparent');
     my $selector = $self->find("//*[\@id='$id']");
@@ -45,31 +45,33 @@ $dt = $t->hms . ':' . $t->millisecond;
           # Wait till popup opens
           sub {
             my $class = $selector->get_attribute('class');
+$class =~ s/dijit\w*(Reset|Inline|Left|Arrow|Validation|Hover|Focus)\w* ?//g;
 my $style = $selector->get_attribute('style');
 $t = DateTime::HiRes->now;
 $dt = $t->hms . ':' . $t->millisecond;
-#warn $dt . " $class -> $style";
-            return scalar( grep { $_ eq 'popupActive' }
+warn $dt . " $class -> $style";
+            return scalar( grep { $_ =~ 'popupActive|dijitSelectOpened'}
                            split /\s+/, $class);
         });
     }
-    $self->SUPER::click;
-#   $self->session->driver->_driver->execute_script("arguments[0].click();",$self->{_id});
+#    $self->SUPER::click;
+   $self->session->driver->_driver->execute_script("arguments[0].click();",$self->{_id});
     $self->session->wait_for(
       # Wait till popup closes
       sub {
         my $class = $selector->get_attribute('class');
+$class =~ s/dijit\w*(Reset|Inline|Left|Arrow|Validation|Hover|Focus)\w* ?//g;
 my $style = $selector->get_attribute('style');
 $t = DateTime::HiRes->now;
 $dt = $t->hms . ':' . $t->millisecond;
-#warn $dt . " $class -> $style";
-        return !scalar( grep { $_ eq 'popupActive' }
+warn $dt . " $class -> $style";
+        return !scalar( grep { $_ =~ 'popupActive|dijitSelectOpened' }
                        split /\s+/, $class) ;
     });
 
 $t = DateTime::HiRes->now;
 $dt = $t->hms . ':' . $t->millisecond;
-#warn $dt . " click--";
+warn $dt . " click--";
     return;
 }
 
