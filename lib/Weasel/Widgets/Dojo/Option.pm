@@ -49,7 +49,7 @@ my $style = $selector->get_attribute('style');
 $t = DateTime::HiRes->now;
 $dt = $t->hms . ':' . $t->millisecond;
 #warn $dt . " $class -> $style";
-            return scalar( grep { $_ eq 'dijitSelectOpened' }
+            return scalar( grep { $_ eq 'popupActive' }
                            split /\s+/, $class);
         });
     }
@@ -63,7 +63,7 @@ my $style = $selector->get_attribute('style');
 $t = DateTime::HiRes->now;
 $dt = $t->hms . ':' . $t->millisecond;
 #warn $dt . " $class -> $style";
-        return !scalar( grep { $_ eq 'dijitSelectOpened' }
+        return !scalar( grep { $_ eq 'popupActive' }
                        split /\s+/, $class) ;
     });
 
