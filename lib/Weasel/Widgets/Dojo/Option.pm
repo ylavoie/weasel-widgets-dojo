@@ -32,13 +32,16 @@ sub click {
 
     if (! $popup->is_displayed) {
         my $id = $popup->get_attribute('dijitpopupparent');
-        $self->find("//*[\@id='$id']")->click; # pop up the selector
+        # Find the selector button
+        my $selector = $self->find("//*[\@id='$id']//*[contains(\@class,'dijitDownArrowButton')]");
+        $selector->click; # pop up the selector
+        $self->session->wait_for( sub { return $popup->is_displayed });
     }
-    $self->SUPER::click;
+    # Click the text, which masks $self under Firefox
+    $self->find("//*[\@id='" . $self->get_attribute('id') . "_text']")->SUPER::click;
 
     return;
 }
 
 
 1;
-
